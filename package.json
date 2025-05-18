@@ -1,5 +1,10 @@
 {
+  "name": "citizen-engagement",
+  "version": "1.0.0",
   "scripts": {
     "start": "concurrently \"npm run start --prefix backend\" \"npm run start --prefix frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
