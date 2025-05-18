@@ -21,36 +21,22 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// 🖼 Set view engine to EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// 🧾 Static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'public')));
-
 // 🔐 API routes
 const authRoutes = require('./routes/auth');
 const complaintsRouter = require('./routes/complaints');
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintsRouter);
 
-// 🧭 EJS page routes (convert your HTML files into EJS)
-app.get('/', (req, res) => {
-  res.render('citizen'); // from citizen.ejs
-});
+// 🧭 Serve React App in Production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from React app
+  app.use(express.static(path.join(__dirname, 'frontend/build')));
 
-app.get('/admin', (req, res) => {
-  res.render('admin'); // from admin.ejs
-});
-
-app.get('/admin-signup', (req, res) => {
-  res.render('admin-signup'); // from admin-signup.ejs
-});
-
-app.get('/tracking', (req, res) => {
-  res.render('tracking'); // from tracking.ejs
-});
+  // All other routes will serve the React app (single-page app)
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+  });
+}
 
 // ❌ 404 handler
 app.use((req, res, next) => {
