@@ -9,8 +9,8 @@
 
     body {
       font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: auto;
+      max-width: auto !important;
+      margin: auto !important;
       padding: 0px !important;
       background: #f9f9f9;
       position: relative;
