@@ -2,7 +2,7 @@
   "scripts": {
     "build": "npm run build:frontend",
     "build:frontend": "npm run build --prefix frontend",
-    "test": "react-scripts test", 
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "npm start --prefix frontend",
@@ -11,7 +11,6 @@
   "dependencies": {
     "concurrently": "^9.1.2"
   },
-  "devDependencies": {},
   "browserslist": {
     "production": [
       ">0.2%",
