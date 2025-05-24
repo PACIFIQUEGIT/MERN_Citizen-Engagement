@@ -1,70 +1,140 @@
-# Getting Started with Create React App
+MERN_Citizen-Engagement
+🏛️ MERN Citizen Engagement System
+A lightweight backend-driven system to help citizens submit complaints and feedback related to public services. The platform categorizes issues into Education, Health, and Sport, and routes them to the appropriate agency for timely action.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+📌 Problem Statement
+Complaints are often handled via fragmented or manual channels, leading to delays, unresolved issues, and poor citizen satisfaction.
 
-## Available Scripts
+✅ Project Goal
+Build a Minimum Viable Product (MVP) of a Citizen Engagement System that:
 
-In the project directory, you can run:
+Accepts complaints/feedback from citizens via a React web app,
 
-### `npm start`
+Categorizes and routes them (e.g., to Education, Health, Sport departments),
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Allows tracking of complaint status,
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Supports basic admin responses to submissions.
 
-### `npm test`
+🔧 Key Features
+👥 Citizens
+Submit complaints via a React-based web form,
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Choose a category (Education, Health, Sport),
 
-### `npm run build`
+Track complaint status (Pending, In Progress, Resolved).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+🛠 Admin
+View and manage categorized complaints,
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Respond to each complaint,
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Update ticket status.
 
-### `npm run eject`
+🛠 Tech Stack
+Tech	Use
+Node.js	Server environment
+Express.js	Backend routing & API
+MongoDB	Database
+React.js	Frontend interface
+JWT	Authentication for admin
+dotenv	Environment configuration
+concurrently	Run frontend & backend simultaneously
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+📁 Folder Structure
+pgsql
+Copy
+Edit
+MERN_Citizen-Engagement/
+├── backend/
+│   ├── models/
+│   │   ├── Complaint.js
+│   │   └── Admin.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   └── complaints.js
+│   ├── db.js
+│   ├── server.js          # Express backend entrypoint
+│   ├── package.json
+│   └── .env              # Backend environment variables
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── package.json
+│   └── .env              # Frontend environment variables (optional)
+├── package.json          # Root for running concurrently
+└── README.md
+⚙️ Setup Instructions
+1. Clone the repo:
+bash
+Copy
+Edit
+git clone https://github.com/yourusername/MERN_Citizen-Engagement.git
+cd MERN_Citizen-Engagement
+2. Install dependencies for both frontend and backend:
+bash
+Copy
+Edit
+cd backend
+npm install
+cd ../frontend
+npm install
+cd ..
+npm install        # for root package.json with concurrently
+3. Configure environment variables:
+Backend: Create backend/.env
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ini
+Copy
+Edit
+MONGO_URI=your-mongodb-uri
+JWT_SECRET=your-secret-key
+PORT=4000
+Frontend: (optional) Create frontend/.env for React environment variables if needed, e.g.,
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+bash
+Copy
+Edit
+REACT_APP_API_BASE_URL=http://localhost:4000/api
+4. Run the app locally:
+At the root folder, run:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+bash
+Copy
+Edit
+npm start
+This uses concurrently to run both backend and frontend:
 
-## Learn More
+Backend will run on http://localhost:4000
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Frontend will run on http://localhost:3000
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+📄 Root package.json scripts example for concurrently:
+json
+{
+  "name": "mern-citizen-engagement",
+  "private": true,
+   "scripts": {
+    "build": "npm run build:frontend",
+    "build:frontend": "npm run build --prefix frontend",
+    "test": "react-scripts test", 
+    "eject": "react-scripts eject",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "npm start --prefix frontend",
+    "start:backend": "npm start --prefix backend"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  },
+}
+🧠 Potential Extensions
+Admin dashboard with charts and filtering,
 
-### Code Splitting
+Email notifications to citizens,
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Audit log of complaint updates,
 
-### Analyzing the Bundle Size
+Mobile responsiveness or mobile app frontend.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+📎 Submission Link
+GitHub Repo: MERN_Citizen-Engagement

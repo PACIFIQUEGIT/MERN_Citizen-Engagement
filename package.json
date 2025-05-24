@@ -1,14 +1,17 @@
 {
   "scripts": {
-    "start": "react-scripts start"
+    "build": "npm run build:frontend",
+    "build:frontend": "npm run build --prefix frontend",
+    "test": "react-scripts test", 
+    "eject": "react-scripts eject",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "npm start --prefix frontend",
+    "start:backend": "npm start --prefix backend"
   },
   "dependencies": {
-    "concurrently": "^9.1.2",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.0",
-    "react-scripts": "^5.0.1",
-    "web-vitals": "^5.0.1"
+    "concurrently": "^9.1.2"
   },
+  "devDependencies": {},
   "browserslist": {
     "production": [
       ">0.2%",
