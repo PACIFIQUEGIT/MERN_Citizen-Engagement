@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './Admin.module.css';
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
+
 function Admin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,7 +12,6 @@ function Admin() {
   const [loading, setLoading] = useState(false);
   const [responseNotes, setResponseNotes] = useState({});
   const [statusUpdates, setStatusUpdates] = useState({});
-  const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
 
   const fetchComplaints = useCallback(async () => {
   try {
@@ -40,7 +41,7 @@ function Admin() {
     console.error(err);
     alert('❌ Failed to load complaints.');
   }
-}, [baseUrl, token]); // ✅ baseUrl added here
+}, [token]); // ✅ baseUrl added here
 
 
   useEffect(() => {

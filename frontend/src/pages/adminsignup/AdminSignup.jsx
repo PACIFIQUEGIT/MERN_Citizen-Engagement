@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './AdminSignup.module.css';
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
+
 const AdminSignup = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,8 +23,6 @@ const AdminSignup = () => {
       password: formData.get('password'),
       institution: formData.get('institution'),
     };
-
-    const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
 
     try {
       const response = await fetch(`${baseUrl}/auth/signup`, {

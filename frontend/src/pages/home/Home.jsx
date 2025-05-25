@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import styles from './Home.module.css';
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
+
 function App() {
   useEffect(() => {
-    const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
 
     const form = document.getElementById('complaintForm');
 
