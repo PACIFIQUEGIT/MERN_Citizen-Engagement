@@ -79,4 +79,15 @@ router.post('/login', async (req, res) => {
   }
 });
 
+const path = require('path');
+
+// Serve React build files in production
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Catch-all handler to serve index.html for any unknown route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+
 module.exports = router;
