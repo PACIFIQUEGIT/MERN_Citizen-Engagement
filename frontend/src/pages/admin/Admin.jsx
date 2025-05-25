@@ -13,34 +13,35 @@ function Admin() {
   const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
 
   const fetchComplaints = useCallback(async () => {
-    try {
-      const res = await fetch(`${baseUrl}/complaints/all`, {
-        headers: { Authorization: 'Bearer ' + token },
-      });
+  try {
+    const res = await fetch(`${baseUrl}/complaints/all`, {
+      headers: { Authorization: 'Bearer ' + token },
+    });
 
-      if (!res.ok) {
-        alert('Session expired. Please log in again.');
-        setToken('');
-        setComplaints([]);
-        return;
-      }
-
-      const data = await res.json();
-      setComplaints(data);
-
-      const notes = {};
-      const statuses = {};
-      data.forEach(c => {
-        notes[c.ticketId] = c.responseNote || '';
-        statuses[c.ticketId] = '';
-      });
-      setResponseNotes(notes);
-      setStatusUpdates(statuses);
-    } catch (err) {
-      console.error(err);
-      alert('❌ Failed to load complaints.');
+    if (!res.ok) {
+      alert('Session expired. Please log in again.');
+      setToken('');
+      setComplaints([]);
+      return;
     }
-  }, [token]);
+
+    const data = await res.json();
+    setComplaints(data);
+
+    const notes = {};
+    const statuses = {};
+    data.forEach(c => {
+      notes[c.ticketId] = c.responseNote || '';
+      statuses[c.ticketId] = '';
+    });
+    setResponseNotes(notes);
+    setStatusUpdates(statuses);
+  } catch (err) {
+    console.error(err);
+    alert('❌ Failed to load complaints.');
+  }
+}, [baseUrl, token]); // ✅ baseUrl added here
+
 
   useEffect(() => {
     if (token) {
