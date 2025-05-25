@@ -3,6 +3,8 @@ import styles from './Home.module.css';
 
 function App() {
   useEffect(() => {
+    const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
+
     const form = document.getElementById('complaintForm');
 
     if (form) {
@@ -11,7 +13,7 @@ function App() {
         const formData = new FormData(form);
 
         try {
-          const response = await fetch('http://localhost:4000/api/complaints', {
+          const response = await fetch(`${baseUrl}/complaints`, {
             method: 'POST',
             body: formData,
           });

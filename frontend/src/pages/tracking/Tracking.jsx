@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Tracking.module.css';
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
+
 const Tracking = () => {
   const [ticketId, setTicketId] = useState('');
   const [statusData, setStatusData] = useState(null);
@@ -14,7 +16,7 @@ const Tracking = () => {
     setStatusData(null);
 
     try {
-      const response = await fetch(`http://localhost:4000/api/complaints/status/${ticketId}`);
+      const response = await fetch(`${baseUrl}/complaints/status/${ticketId}`);
 
       if (!response.ok) {
         const message = await response.text();

@@ -10,10 +10,11 @@ function Admin() {
   const [loading, setLoading] = useState(false);
   const [responseNotes, setResponseNotes] = useState({});
   const [statusUpdates, setStatusUpdates] = useState({});
+  const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
 
   const fetchComplaints = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/complaints/all', {
+      const res = await fetch(`${baseUrl}/complaints/all`, {
         headers: { Authorization: 'Bearer ' + token },
       });
 
@@ -51,7 +52,7 @@ function Admin() {
     setLoading(true);
     setMessage({ text: '', type: '' });
     try {
-      const res = await fetch('http://localhost:4000/api/auth/login', {
+      const res = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -82,7 +83,7 @@ function Admin() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:4000/api/complaints/status/${ticketId}`, {
+      const res = await fetch(`${baseUrl}/complaints/status/${ticketId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +110,7 @@ function Admin() {
   const submitResponse = async (ticketId) => {
     const responseNote = responseNotes[ticketId] || '';
     try {
-      const res = await fetch(`http://localhost:4000/api/complaints/response/${ticketId}`, {
+      const res = await fetch(`${baseUrl}/complaints/response/${ticketId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

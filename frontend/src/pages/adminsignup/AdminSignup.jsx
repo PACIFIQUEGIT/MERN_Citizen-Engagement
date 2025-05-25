@@ -22,8 +22,10 @@ const AdminSignup = () => {
       institution: formData.get('institution'),
     };
 
+    const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
+
     try {
-      const response = await fetch('http://localhost:4000/api/auth/signup', {
+      const response = await fetch(`${baseUrl}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
