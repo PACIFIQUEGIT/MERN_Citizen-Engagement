@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Import Link
 import styles from './Home.module.css';
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
 
 function App() {
   useEffect(() => {
-
     const form = document.getElementById('complaintForm');
 
     if (form) {
@@ -42,15 +42,20 @@ function App() {
 
   return (
     <div className={styles.App}>
-      {/* Top Buttons */}
+      {/* Top Buttons using React Router Links */}
       <div className={styles.topButtons}>
-        <button onClick={() => window.location.href = '/admin'}>Admin</button>
-        <button onClick={() => window.location.href = '/admin-signup'}>Create New Admin</button>
+        <Link to="/admin">
+          <button>Admin</button>
+        </Link>
+        <Link to="/admin-signup">
+          <button>Create New Admin</button>
+        </Link>
       </div>
 
       <h2>Submit a Complaint or Feedback</h2>
 
       <form className={styles.home} id="complaintForm" encType="multipart/form-data" method="POST">
+        {/* form fields here */}
         <input type="text" name="fullName" placeholder="Full Name" required />
         <input type="email" name="email" placeholder="Email Address" required />
         <input type="text" name="phone" placeholder="Phone Number" />
@@ -70,12 +75,11 @@ function App() {
       </form>
 
       <div style={{ textAlign: 'center', marginTop: '5px !important' }}>
-        <button
-          onClick={() => window.location.href = '/tracking'}
-          style={{ backgroundColor: '#17a2b8' }}
-        >
-          Track Your Complaint
-        </button>
+        <Link to="/tracking">
+          <button style={{ backgroundColor: '#17a2b8' }}>
+            Track Your Complaint
+          </button>
+        </Link>
       </div>
     </div>
   );
