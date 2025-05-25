@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styles from './AdminSignup.module.css';
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
@@ -18,8 +18,8 @@ const AdminSignup = () => {
     const formData = new FormData(form);
 
     const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
+      name: formData.get('name')?.trim(),
+      email: formData.get('email')?.trim(),
       password: formData.get('password'),
       institution: formData.get('institution'),
     };
@@ -49,22 +49,44 @@ const AdminSignup = () => {
 
   return (
     <div className={styles.container}>
-      <button
-        onClick={() => navigate('/')}
-        className={styles.homeButton}
-      >
+      <Link to="/" className={styles.homeButton}>
         ⬅ Home
-      </button>
+      </Link>
 
       <h2>Admin Sign-Up</h2>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <input name="name" type="text" placeholder="Full Name" required className={styles.input} />
-        <input name="email" type="email" placeholder="Email Address" required className={styles.input} />
-        <input name="password" type="password" placeholder="Password" required className={styles.input} />
+        <input
+          name="name"
+          type="text"
+          placeholder="Full Name"
+          required
+          className={styles.input}
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email Address"
+          required
+          className={styles.input}
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+          className={styles.input}
+        />
 
-        <label htmlFor="institution" className={styles.label}>Select Institution:</label>
-        <select id="institution" name="institution" required className={styles.input}>
+        <label htmlFor="institution" className={styles.label}>
+          Select Institution:
+        </label>
+        <select
+          id="institution"
+          name="institution"
+          required
+          className={styles.input}
+        >
           <option value="">--Select--</option>
           <option value="Health">Health</option>
           <option value="Education">Education</option>
@@ -80,7 +102,11 @@ const AdminSignup = () => {
           {loading ? 'Signing Up...' : 'Sign Up'}
         </button>
 
-        {error && <p className={styles.error}>{error}</p>}
+        {error && (
+          <p className={styles.error} aria-live="polite">
+            {error}
+          </p>
+        )}
       </form>
     </div>
   );

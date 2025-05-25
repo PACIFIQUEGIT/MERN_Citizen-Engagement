@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Admin.module.css';
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
@@ -13,36 +14,50 @@ function Admin() {
   const [responseNotes, setResponseNotes] = useState({});
   const [statusUpdates, setStatusUpdates] = useState({});
 
-  const fetchComplaints = useCallback(async () => {
-  try {
-    const res = await fetch(`${baseUrl}/complaints/all`, {
-      headers: { Authorization: 'Bearer ' + token },
-    });
+  // Load token from localStorage on first render
+  useEffect(() => {
+    const savedToken = localStorage.getItem('adminToken');
+    if (savedToken) setToken(savedToken);
+  }, []);
 
-    if (!res.ok) {
-      alert('Session expired. Please log in again.');
-      setToken('');
-      setComplaints([]);
-      return;
+  // Save token to localStorage when it changes
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('adminToken', token);
+    } else {
+      localStorage.removeItem('adminToken');
     }
+  }, [token]);
 
-    const data = await res.json();
-    setComplaints(data);
+  const fetchComplaints = useCallback(async () => {
+    try {
+      const res = await fetch(`${baseUrl}/complaints/all`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    const notes = {};
-    const statuses = {};
-    data.forEach(c => {
-      notes[c.ticketId] = c.responseNote || '';
-      statuses[c.ticketId] = '';
-    });
-    setResponseNotes(notes);
-    setStatusUpdates(statuses);
-  } catch (err) {
-    console.error(err);
-    alert('❌ Failed to load complaints.');
-  }
-}, [token]); // ✅ baseUrl added here
+      if (!res.ok) {
+        alert('Session expired. Please log in again.');
+        setToken('');
+        setComplaints([]);
+        return;
+      }
 
+      const data = await res.json();
+      setComplaints(data);
+
+      const notes = {};
+      const statuses = {};
+      data.forEach((c) => {
+        notes[c.ticketId] = c.responseNote || '';
+        statuses[c.ticketId] = '';
+      });
+      setResponseNotes(notes);
+      setStatusUpdates(statuses);
+    } catch (err) {
+      console.error(err);
+      alert('❌ Failed to load complaints.');
+    }
+  }, [token]);
 
   useEffect(() => {
     if (token) {
@@ -75,7 +90,7 @@ function Admin() {
   };
 
   const updateStatus = (ticketId, newStatus) => {
-    setStatusUpdates(prev => ({ ...prev, [ticketId]: newStatus }));
+    setStatusUpdates((prev) => ({ ...prev, [ticketId]: newStatus }));
   };
 
   const submitStatusUpdate = async (ticketId) => {
@@ -106,11 +121,11 @@ function Admin() {
   };
 
   const handleNoteChange = (ticketId, value) => {
-    setResponseNotes(prev => ({ ...prev, [ticketId]: value }));
+    setResponseNotes((prev) => ({ ...prev, [ticketId]: value }));
   };
 
   const submitResponse = async (ticketId) => {
-    const responseNote = responseNotes[ticketId] || '';
+    const responseNote = responseNotes[ticketId]?.trim() || '';
     try {
       const res = await fetch(`${baseUrl}/complaints/response/${ticketId}`, {
         method: 'PATCH',
@@ -143,20 +158,22 @@ function Admin() {
   if (!token) {
     return (
       <div className={styles.container}>
-        <button onClick={() => window.location.href = '/'}>⬅ Home</button>
+        <Link to="/">
+          <button className={styles.button}>⬅ Home</button>
+        </Link>
         <h3>Admin Login</h3>
         <input
           type="email"
           placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           className={styles.input}
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           className={styles.input}
         />
         <button onClick={handleLogin} disabled={loading} className={styles.button}>
@@ -173,7 +190,9 @@ function Admin() {
 
   return (
     <div className={styles.container}>
-      <button onClick={handleLogout} className={styles.button}>🔓 Logout</button>
+      <div className={styles.header}>
+        <button onClick={handleLogout} className={styles.button}>🔓 Logout</button>
+      </div>
       <h2>Admin Complaint Dashboard</h2>
       <table className={styles.table}>
         <thead>
@@ -190,7 +209,7 @@ function Admin() {
           </tr>
         </thead>
         <tbody>
-          {complaints.map(c => (
+          {complaints.map((c) => (
             <tr key={c.ticketId}>
               <td>{c.ticketId}</td>
               <td>{c.title || 'N/A'}</td>
@@ -219,9 +238,9 @@ function Admin() {
               </td>
               <td>
                 <textarea
-                  rows="2"
+                  rows={2}
                   value={responseNotes[c.ticketId] || ''}
-                  onChange={e => handleNoteChange(c.ticketId, e.target.value)}
+                  onChange={(e) => handleNoteChange(c.ticketId, e.target.value)}
                 />
               </td>
               <td>
