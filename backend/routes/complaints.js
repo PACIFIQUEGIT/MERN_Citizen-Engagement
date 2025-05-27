@@ -169,5 +169,4 @@ router.get('/all', async (req, res) => {
   }
 });
 
-
 module.exports = router;
